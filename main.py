@@ -28,7 +28,8 @@ def get_json_stores():
 
 def get_store(uuid):
     url = "https://www.ubereats.com/api/getStoreV1?localeCode=au"
-    payload = "'" + str({"storeUuid": uuid, "sfNuggetCount": 6}) + "'"
+    d = {"storeUuid": uuid, "sfNuggetCount": 6}
+    payload = json.dumps(d)
     headers = {
         'authority': 'www.ubereats.com',
         'method': 'POST',
@@ -49,42 +50,79 @@ def get_store(uuid):
 
 def get_store_details(details):
     store_info = {}
-    data = details['data']
-    title = data['title']
-    images = data['heroImageUrls']
-    location = data['location']['address']
-    currency = data['currencyCode']
-    rating = data['ratingValue']
-    meal_data = data['sectionEntitiesMap']
-    store_info['title'] = title
-    store_info['images'] = images
-    store_info['location'] = location
-    store_info['currency'] = currency
-    store_info['rating'] = rating
+    try:
+        data = details['data']
+    except:
+        data = None
+    if data is not None:
+        try:
+            title = store_info["title"] = data['title']
+        except:
+            title = store_info["title"] = "NA"
+        try:
+            store_info["images"] = data['heroImageUrls']
+        except:
+            store_info["images"] = []
+        try:
+            store_info["location"] = data['location']['address']
+        except:
+            store_info["location"] = "NA"
+        try:
+            store_info["currency"] = data['currencyCode']
+        except:
+            store_info["currency"] = "NA"
+        try:
+            store_info["rating"] = data['ratingValue']
+        except:
+            store_info["rating"] = "NA"
+        try:
+            store_info["meal_data"] = data['sectionEntitiesMap']
+        except:
+            store_info["meal_data"] = "NA"
 
-    menu_info = []
-    for key, value in meal_data.items():
-        for key1, value1 in value.items():
-            menu_info.append({
-                'img_url': value1['imageUrl'],
-                'price': value1['price'],
-                'meal_name': value1['title']
-            })
+        try:
+            meal_category = data['sectionEntitiesMap']
+        except:
+            meal_category = None
 
-    store = {
+        menu_info = []
+        if meal_category is not None:
+            for category in meal_category.values():
+                for meal in category.values():
+                    try:
+                        img_url = meal['imageUrl']
+                    except:
+                        img_url = "NA"
+
+                    try:
+                        price = meal['price']
+                    except:
+                        price = "NA"
+
+                    try:
+                        meal_name = meal['title']
+                    except:
+                        meal_name = "NA"
+                    menu_info.append({
+                        "img_url": img_url,
+                        "price": price,
+                        "meal_name": meal_name
+                    })
+
+    store_final = {
         title: {
             "store_info": store_info,
             "menu_info": menu_info
         }
     }
 
-    return store
+    return store_final
 
 
 def save_file(save_store):
     for key, value in save_store.items():
         with open(f"{key}.txt", "w") as f:
-            f.write(str(save_store))
+            f.write(json.dumps(save_store))
         f.close()
         break
 
@@ -94,14 +132,17 @@ if __name__ == '__main__':
     store_list = json_stores['data']['elements'][-2]['feedItems']
     my_list = []
     for store in store_list:
-          # print(store['uuid'])
+        # print(store['uuid'])
+        # store = store_list[3]
         store_uuid = store['uuid']
         store_details = get_store(store_uuid)
-        for key, value in store_details.items():
-            print(f"{key} -- {value}")
+        # print(store_details)
+        # for key, value in store_details.items():
+        #     print(f"{key} -- {value}")
+        # break
+        this_store = get_store_details(store_details)
+        save_file(this_store)
         break
-        # this_store = get_store_details(store_details)
-        # save_file(this_store)
 """
 stores names = response.css(".ag.b9 > a > h3::text").extract()
 
