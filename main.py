@@ -161,6 +161,30 @@ print(response.text)
 response = requests.request("POST", url, headers=headers, data=payload)
 
 print(response.text)
+import requests
+
+url = "https://www.ubereats.com/api/getStoreV1?localeCode=au"
+
+payload = "{\"storeUuid\":\"25da35b0-4148-495b-b475-7c59ac98f524\",\"sfNuggetCount\":6}"
+headers = {
+  'authority': ' www.ubereats.com',
+  'method': ' POST',
+  'path': ' /api/getStoreV1?localeCode=au',
+  'scheme': ' https',
+  'accept': ' */*',
+  'accept-encoding': ' gzip, deflate, br',
+  'accept-language': ' en-GB,en-US;q=0.9,en;q=0.8,fr;q=0.7',
+  'cache-control': ' no-cache',
+  'content-length': ' 70',
+  'content-type': ' application/json',
+  'origin': ' https://www.ubereats.com',
+  'x-csrf-token': ' x',
+  'Cookie': 'dId=a8401ca3-7389-4486-a3fd-d627f302447a; marketing_vistor_id=2fead8fe-20b6-45bb-afb7-4f53fb4b6032; uev2.id.session=6dde9733-bd3a-4563-90c2-22474013021c; uev2.id.xp=fa4d10a6-ad61-4dc7-86c7-24f854b8c025; uev2.ts.session=1636092484860; jwt-session=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzYwNDg0MzQsImV4cCI6MTYzNjEzNDgzNH0.bx25clALDY3THPhp1pLr0ZQcM6lyWPoICoGazT_g7cU'
+}
+
+response = requests.request("POST", url, headers=headers, data=payload)
+
+print(response.text)
 
 """
 from scrapy import Selector
