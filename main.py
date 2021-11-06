@@ -1,11 +1,23 @@
+from random import randint
+
 import requests
 import json
 
+cities_urls = [
+    # "https://www.ubereats.com/au/city/canberra-act",
+    # "https://www.ubereats.com/au/city/byron-bay-nsw",
+    # "https://www.ubereats.com/au/city/galston-nsw",
+    # "https://www.ubereats.com/au/city/queanbeyan-nsw",
+    "https://www.ubereats.com/au/city/wagga-wagga-nsw",
+    "https://www.ubereats.com/au/city/catherine-field-nsw"
+]
 
-def get_json_stores():
-    url = "https://www.ubereats.com/api/getSeoFeedV1?localeCode=au"
 
-    payload = '{"pathname":"/au/city/canberra-act"}'
+def get_json_stores(pathname):
+    api_url = "https://www.ubereats.com/api/getSeoFeedV1?localeCode=au"
+    d = {"pathname": pathname}
+    # print(pathname)
+    payload = json.dumps(d)
     headers = {
         'authority': 'www.ubereats.com',
         'method': 'POST',
@@ -21,13 +33,13 @@ def get_json_stores():
         'x-csrf-token': 'x',
     }
 
-    response = requests.request("POST", url, headers=headers, data=payload)
+    response = requests.request("POST", api_url, headers=headers, data=payload)
 
     return json.loads(response.text)
 
 
 def get_store(uuid):
-    url = "https://www.ubereats.com/api/getStoreV1?localeCode=au"
+    api_url = "https://www.ubereats.com/api/getStoreV1?localeCode=au"
     d = {"storeUuid": uuid, "sfNuggetCount": 6}
     payload = json.dumps(d)
     headers = {
@@ -44,7 +56,7 @@ def get_store(uuid):
         'origin': 'https://www.ubereats.com',
         'x-csrf-token': 'x',
     }
-    response = requests.request("POST", url, headers=headers, data=payload)
+    response = requests.request("POST", api_url, headers=headers, data=payload)
     return json.loads(response.text)
 
 
@@ -55,6 +67,8 @@ def get_store_details(details):
     except:
         data = None
     if data is not None:
+        sections_list = []
+
         try:
             title = store_info["title"] = data['title']
         except:
@@ -75,10 +89,11 @@ def get_store_details(details):
             store_info["rating"] = data['ratingValue']
         except:
             store_info["rating"] = "NA"
+
         try:
-            store_info["meal_data"] = data['sectionEntitiesMap']
+            store_info["phoneNumber"] = data['phoneNumber']
         except:
-            store_info["meal_data"] = "NA"
+            store_info["phoneNumber"] = "NA"
 
         try:
             meal_category = data['sectionEntitiesMap']
@@ -89,6 +104,16 @@ def get_store_details(details):
         if meal_category is not None:
             for category in meal_category.values():
                 for meal in category.values():
+                    sub_section = data['subsectionsMap']
+                    # subsection_list = sections_list['subsectionUuids']
+                    meal_uuid = meal['uuid']
+                    # print(meal_uuid)
+                    meal_type = "NA"
+                    for section in sub_section.values():
+                        uuids = section['itemUuids']
+                        if meal_uuid in uuids:
+                            meal_type = section['title']
+
                     try:
                         img_url = meal['imageUrl']
                     except:
@@ -103,10 +128,14 @@ def get_store_details(details):
                         meal_name = meal['title']
                     except:
                         meal_name = "NA"
+
+                    # uuid = meal['uuid']
+
                     menu_info.append({
                         "img_url": img_url,
-                        "price": price,
-                        "meal_name": meal_name
+                        "price": str(price)[:-2] + "." + str(price)[-2:],
+                        "meal_name": meal_name,
+                        "meal_type": meal_type
                     })
 
     store_final = {
@@ -119,19 +148,32 @@ def get_store_details(details):
     return store_final
 
 
-def save_file(save_store):
-    for key, value in save_store.items():
-        with open(f"{key}.txt", "w") as f:
-            f.write(json.dumps(save_store))
-        f.close()
-        break
+def save_file(save_store, file_name):
+    with open(f"{file_name.split('/')[-1]}.txt", "w") as f:
+        f.write(json.dumps(save_store))
+    f.close()
 
 
-if __name__ == '__main__':
-    json_stores = get_json_stores()
-    store_list = json_stores['data']['elements'][-2]['feedItems']
+def get_path_url(param_url):
+    split_url = param_url[24:]
+    return split_url
+
+
+def process_store(city_url):
+    path = get_path_url(city_url)
+    json_stores = get_json_stores(path)
+    # print(json.dumps(json_stores))
+    # return
+    ind = 0
+    for ind_store, store in enumerate(json_stores['data']['elements']):
+        if "feedItems" in store.keys() and "storesMap" in store.keys():
+            ind = ind_store
+            break
+    store_list = json_stores['data']['elements'][ind]['feedItems']
     my_list = []
+    counter = 0
     for store in store_list:
+        counter += 1
         # print(store['uuid'])
         # store = store_list[3]
         store_uuid = store['uuid']
@@ -141,8 +183,19 @@ if __name__ == '__main__':
         #     print(f"{key} -- {value}")
         # break
         this_store = get_store_details(store_details)
-        save_file(this_store)
-        break
+        my_list.append(this_store)
+    save_file(my_list, path)
+    # if counter == 4:
+    #     break
+
+
+if __name__ == '__main__':
+    # counter = 0
+    for url in cities_urls:
+        process_store(url)
+        # counter += 1
+        # if counter == 2:
+        #     break
 """
 stores names = response.css(".ag.b9 > a > h3::text").extract()
 
