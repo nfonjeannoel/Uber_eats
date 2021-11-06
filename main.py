@@ -8,8 +8,54 @@ cities_urls = [
     # "https://www.ubereats.com/au/city/byron-bay-nsw",
     # "https://www.ubereats.com/au/city/galston-nsw",
     # "https://www.ubereats.com/au/city/queanbeyan-nsw",
-    "https://www.ubereats.com/au/city/wagga-wagga-nsw",
-    "https://www.ubereats.com/au/city/catherine-field-nsw"
+    # "https://www.ubereats.com/au/city/wagga-wagga-nsw",
+    # "https://www.ubereats.com/au/city/catherine-field-nsw"
+    # "https://www.ubereats.com/au/city/central-coast-nsw",
+    # "https://www.ubereats.com/au/city/bathurst-nsw",
+    # "https://www.ubereats.com/au/city/wollongong-nsw",
+    # "https://www.ubereats.com/au/city/leppington-nsw",
+    # "https://www.ubereats.com/au/city/sydney-nsw",
+    # "https://www.ubereats.com/au/city/newcastle-nsw",
+    # "https://www.ubereats.com/au/city/tweed-heads-nsw",
+    # "https://www.ubereats.com/au/city/old-bar-nsw",
+    # "https://www.ubereats.com/au/city/wagga-wagga-nsw"
+    # "https://www.ubereats.com/au/city/darwin-nt",
+    # "https://www.ubereats.com/au/city/brisbane-qld",
+    # "https://www.ubereats.com/au/city/cairns-qld",
+    # "https://www.ubereats.com/au/city/gold-coast-qld",
+    # "https://www.ubereats.com/au/city/hervey-bay-qld",
+    # "https://www.ubereats.com/au/city/highfields-qld",
+    # "https://www.ubereats.com/au/city/mackay-qld",
+    # "https://www.ubereats.com/au/city/mount-cotton-qld",
+    # "https://www.ubereats.com/au/city/rockhampton-qld",
+    # "https://www.ubereats.com/au/city/sunshine-coast-qld",
+    # "https://www.ubereats.com/au/city/toowoomba-qld",
+    # "https://www.ubereats.com/au/city/townsville-qld",
+    # "https://www.ubereats.com/au/city/tweed-heads-qld",
+    # "https://www.ubereats.com/au/city/withcott-qld"
+    # "https://www.ubereats.com/au/city/adelaide-sa",
+    # "https://www.ubereats.com/au/city/angle-vale-sa",
+    # "https://www.ubereats.com/au/city/gawler-sa",
+    # "https://www.ubereats.com/au/city/hobart-tas",
+    # "https://www.ubereats.com/au/city/launceston-tas",
+    # "https://www.ubereats.com/au/city/ballarat-vic",
+    # "https://www.ubereats.com/au/city/bendigo-vic",
+    # "https://www.ubereats.com/au/city/diggers-rest-vic",
+    # "https://www.ubereats.com/au/city/geelong-vic",
+    # "https://www.ubereats.com/au/city/lara-vic",
+    # "https://www.ubereats.com/au/city/leopold-vic",
+    # "https://www.ubereats.com/au/city/melbourne-vic",
+    # "https://www.ubereats.com/au/city/melton-vic"
+    "https://www.ubereats.com/au/city/officer-vic",
+    "https://www.ubereats.com/au/city/pakenham-vic",
+    "https://www.ubereats.com/au/city/rockbank-vic",
+    "https://www.ubereats.com/au/city/sunbury-vic",
+    "https://www.ubereats.com/au/city/wonga-park-vic",
+    "https://www.ubereats.com/au/city/baldivis-wa",
+    "https://www.ubereats.com/au/city/bunbury-wa",
+    "https://www.ubereats.com/au/city/ellenbrook-wa",
+    "https://www.ubereats.com/au/city/perth-wa",
+    "https://www.ubereats.com/au/city/yanchep-wa"
 ]
 
 
@@ -159,11 +205,22 @@ def get_path_url(param_url):
     return split_url
 
 
+from time import sleep
+
+
+# def small_sleep():
+#     sleep(1)
+
+
 def process_store(city_url):
     path = get_path_url(city_url)
+    print(path)
     json_stores = get_json_stores(path)
+    if json_stores['status'] == "failure":
+        print(f"store {path} not found")
+        return
     # print(json.dumps(json_stores))
-    # return
+
     ind = 0
     for ind_store, store in enumerate(json_stores['data']['elements']):
         if "feedItems" in store.keys() and "storesMap" in store.keys():
@@ -184,7 +241,10 @@ def process_store(city_url):
         # break
         this_store = get_store_details(store_details)
         my_list.append(this_store)
+        print("added new store" + store_uuid)
     save_file(my_list, path)
+
+    print(f"saved file {path}")
     # if counter == 4:
     #     break
 
@@ -193,6 +253,7 @@ if __name__ == '__main__':
     # counter = 0
     for url in cities_urls:
         process_store(url)
+        # break
         # counter += 1
         # if counter == 2:
         #     break
