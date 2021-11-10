@@ -4,6 +4,8 @@ import requests
 import json
 
 cities_urls = [
+
+    #urls for all the cities in Australia
     # "https://www.ubereats.com/au/city/canberra-act",
     # "https://www.ubereats.com/au/city/byron-bay-nsw",
     # "https://www.ubereats.com/au/city/galston-nsw",
@@ -46,16 +48,16 @@ cities_urls = [
     # "https://www.ubereats.com/au/city/leopold-vic",
     # "https://www.ubereats.com/au/city/melbourne-vic",
     # "https://www.ubereats.com/au/city/melton-vic"
-    "https://www.ubereats.com/au/city/officer-vic",
-    "https://www.ubereats.com/au/city/pakenham-vic",
-    "https://www.ubereats.com/au/city/rockbank-vic",
-    "https://www.ubereats.com/au/city/sunbury-vic",
-    "https://www.ubereats.com/au/city/wonga-park-vic",
-    "https://www.ubereats.com/au/city/baldivis-wa",
-    "https://www.ubereats.com/au/city/bunbury-wa",
-    "https://www.ubereats.com/au/city/ellenbrook-wa",
-    "https://www.ubereats.com/au/city/perth-wa",
-    "https://www.ubereats.com/au/city/yanchep-wa"
+    # "https://www.ubereats.com/au/city/officer-vic",
+    # "https://www.ubereats.com/au/city/pakenham-vic",
+    # "https://www.ubereats.com/au/city/rockbank-vic",
+    # "https://www.ubereats.com/au/city/sunbury-vic",
+    # "https://www.ubereats.com/au/city/wonga-park-vic",
+    # "https://www.ubereats.com/au/city/baldivis-wa",
+    # "https://www.ubereats.com/au/city/bunbury-wa",
+    # "https://www.ubereats.com/au/city/ellenbrook-wa",
+    # "https://www.ubereats.com/au/city/perth-wa",
+    # "https://www.ubereats.com/au/city/yanchep-wa"
 ]
 
 
