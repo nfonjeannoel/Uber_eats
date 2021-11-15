@@ -175,11 +175,11 @@ def get_store_details(details):
                     # subsection_list = sections_list['subsectionUuids']
                     meal_uuid = meal['uuid']
                     # print(meal_uuid)
-                    meal_type = "NA"
+                    meal_type = []
                     for section in sub_section.values():
                         uuids = section['itemUuids']
                         if meal_uuid in uuids:
-                            meal_type = section['title']
+                            meal_type.append(section['title'])
 
                     try:
                         img_url = meal['imageUrl']
