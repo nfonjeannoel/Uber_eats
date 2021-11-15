@@ -142,6 +142,13 @@ def get_store_details(details):
             store_info["phoneNumber"] = data['phoneNumber']
         except:
             store_info["phoneNumber"] = "NA"
+            
+        try:
+            temp = data["hours"][0]["sectionHours"][0]["startTime"]
+            temp = temp[:-2] + ":" + temp[-2:]
+            store_info["opening_hours"] = temp
+        except:
+            store_info["opening_hours"] = "NA"
 
         try:
             meal_category = data['sectionEntitiesMap']
@@ -176,6 +183,11 @@ def get_store_details(details):
                         meal_name = meal['title']
                     except:
                         meal_name = "NA"
+                        
+                    try:
+                        meal_desc = meal['description']
+                    except:
+                        meal_desc = "NA"
 
                     # uuid = meal['uuid']
 
@@ -183,6 +195,7 @@ def get_store_details(details):
                         "img_url": img_url,
                         "price": str(price)[:-2] + "." + str(price)[-2:],
                         "meal_name": meal_name,
+                        "meal_description" : meal_desc,
                         "meal_type": meal_type
                     })
 
