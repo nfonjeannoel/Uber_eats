@@ -121,6 +121,12 @@ def get_store_details(details):
             title = store_info["title"] = data['title']
         except:
             title = store_info["title"] = "NA"
+            
+        try:
+            title = store_info["slug"] = data['slug']
+        except:
+            title = store_info["slug"] = "NA"   
+         
         try:
             store_info["images"] = data['heroImageUrls']
         except:
