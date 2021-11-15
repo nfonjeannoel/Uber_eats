@@ -123,9 +123,15 @@ def get_store_details(details):
             title = store_info["title"] = "NA"
             
         try:
-            title = store_info["slug"] = data['slug']
+            store_info["slug"] = data['slug']
         except:
-            title = store_info["slug"] = "NA"   
+            store_info["slug"] = "NA"   
+            
+            
+        try:
+            store_info["price_range"] = data["nuggets"][0]["body"]
+        except:
+            store_info["price_range"] = "NA"     
          
         try:
             store_info["images"] = data['heroImageUrls']
