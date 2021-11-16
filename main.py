@@ -163,6 +163,7 @@ def get_store_details(details):
             temp = data["hours"][0]["sectionHours"][0]["startTime"]
             store_info["opening_hours"] = temp
 
+        # add a : before the last but one number, returns the time as an integer
         except:
             store_info["opening_hours"] = "NA"
             # print(data["hours"][0]["sectionHours"][0]["startTime"])
