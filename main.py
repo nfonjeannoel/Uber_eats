@@ -5,7 +5,7 @@ import json
 
 cities_urls = [
 
-    #urls for all the cities in Australia
+    # urls for all the cities in Australia
     # "https://www.ubereats.com/au/city/canberra-act",
     # "https://www.ubereats.com/au/city/byron-bay-nsw",
     # "https://www.ubereats.com/au/city/galston-nsw",
@@ -56,7 +56,7 @@ cities_urls = [
     # "https://www.ubereats.com/au/city/baldivis-wa",
     # "https://www.ubereats.com/au/city/bunbury-wa",
     # "https://www.ubereats.com/au/city/ellenbrook-wa",
-    # "https://www.ubereats.com/au/city/perth-wa",
+    "https://www.ubereats.com/au/city/perth-wa"
     # "https://www.ubereats.com/au/city/yanchep-wa"
 ]
 
@@ -121,18 +121,22 @@ def get_store_details(details):
             title = store_info["title"] = data['title']
         except:
             title = store_info["title"] = "NA"
-            
+
+        try:
+            store_info["uuid"] = data['uuid']
+        except:
+            store_info["uuid"] = "NA"
+
         try:
             store_info["slug"] = data['slug']
         except:
-            store_info["slug"] = "NA"   
-            
-            
+            store_info["slug"] = "NA"
+
         try:
             store_info["price_range"] = data["nuggets"][0]["body"]
         except:
-            store_info["price_range"] = "NA"     
-         
+            store_info["price_range"] = "NA"
+
         try:
             store_info["images"] = data['heroImageUrls']
         except:
@@ -146,7 +150,7 @@ def get_store_details(details):
         except:
             store_info["currency"] = "NA"
         try:
-            store_info["rating"] = data['ratingValue']
+            store_info["rating"] = data['rating']['ratingValue']
         except:
             store_info["rating"] = "NA"
 
@@ -154,14 +158,14 @@ def get_store_details(details):
             store_info["phoneNumber"] = data['phoneNumber']
         except:
             store_info["phoneNumber"] = "NA"
-            
+
         try:
             temp = data["hours"][0]["sectionHours"][0]["startTime"]
-            temp = temp[:-2] + ":" + temp[-2:]
             store_info["opening_hours"] = temp
+
         except:
             store_info["opening_hours"] = "NA"
-
+            # print(data["hours"][0]["sectionHours"][0]["startTime"])
         try:
             meal_category = data['sectionEntitiesMap']
         except:
@@ -195,7 +199,7 @@ def get_store_details(details):
                         meal_name = meal['title']
                     except:
                         meal_name = "NA"
-                        
+
                     try:
                         meal_desc = meal['description']
                     except:
@@ -207,7 +211,7 @@ def get_store_details(details):
                         "img_url": img_url,
                         "price": str(price)[:-2] + "." + str(price)[-2:],
                         "meal_name": meal_name,
-                        "meal_description" : meal_desc,
+                        "meal_description": meal_desc,
                         "meal_type": meal_type
                     })
 
@@ -269,8 +273,9 @@ def process_store(city_url):
         this_store = get_store_details(store_details)
         my_list.append(this_store)
         print("added new store" + store_uuid)
+        # break
     save_file(my_list, path)
-
+    # print(my_list)
     print(f"saved file {path}")
     # if counter == 4:
     #     break
