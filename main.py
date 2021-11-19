@@ -242,7 +242,7 @@ def get_store_details(details):
 #     with open(f"{file_name.split('/')[-1]}.json", "w") as f:
 #         f.write(json.dumps(save_store))
 #     f.close()
-
+# new saving format
 def save_file(save_store, file_name):
     s3 = boto3.resource('s3', aws_access_key_id="AKIA6IYVRKBBZSEE3CXN",
                         aws_secret_access_key="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")
