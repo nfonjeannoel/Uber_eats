@@ -167,15 +167,21 @@ def get_store_details(details):
             store_info["phoneNumber"] = "NA"
 
         try:
-            temp = str(data["hours"][0]["sectionHours"][0]["startTime"])
-            # if int(temp) > 1200:
-            #     time = temp[:-2] + ":" + temp[-2:] + "PM"
-            #     store_info["opening_hours"] = time
-            # else:
-            #     time = temp[:-2] + ":" + temp[-2:] + "AM"
-            #     store_info["opening_hours"] = time
+
+            try:
+                start_time = str(data["hours"][0]["sectionHours"][0]["startTime"])
+            except:
+                start_time = ""
+            try:
+                end_time = str(data["hours"][0]["sectionHours"][0]["endTime"])
+            except:
+                end_time = ""
+
         # add a : before the last but one number, returns the time as an integer
-            store_info["opening_hours"] = temp
+            store_info["opening_hours"] = {
+                "start_time" : start_time,
+                "end_time" : end_time
+            }
         except:
             store_info["opening_hours"] = "NA"
             # print(data["hours"][0]["sectionHours"][0]["startTime"])
