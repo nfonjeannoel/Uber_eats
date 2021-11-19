@@ -8,58 +8,58 @@ import json
 cities_urls = [
 
     # urls for all the cities in Australia
-    "https://www.ubereats.com/au/city/canberra-act",
-    "https://www.ubereats.com/au/city/byron-bay-nsw",
+    # "https://www.ubereats.com/au/city/canberra-act",
+    # "https://www.ubereats.com/au/city/byron-bay-nsw",
     # "https://www.ubereats.com/au/city/galston-nsw",
     # "https://www.ubereats.com/au/city/queanbeyan-nsw",
     # "https://www.ubereats.com/au/city/wagga-wagga-nsw",
     # "https://www.ubereats.com/au/city/catherine-field-nsw",
     # "https://www.ubereats.com/au/city/central-coast-nsw",
     # "https://www.ubereats.com/au/city/bathurst-nsw",
-    # "https://www.ubereats.com/au/city/wollongong-nsw",
-    # "https://www.ubereats.com/au/city/leppington-nsw",
-    # "https://www.ubereats.com/au/city/sydney-nsw",
-    # "https://www.ubereats.com/au/city/newcastle-nsw",
-    # "https://www.ubereats.com/au/city/tweed-heads-nsw",
-    # "https://www.ubereats.com/au/city/old-bar-nsw",
-    # "https://www.ubereats.com/au/city/wagga-wagga-nsw",
-    # "https://www.ubereats.com/au/city/darwin-nt",
-    # "https://www.ubereats.com/au/city/brisbane-qld",
-    # "https://www.ubereats.com/au/city/cairns-qld",
-    # "https://www.ubereats.com/au/city/gold-coast-qld",
-    # "https://www.ubereats.com/au/city/hervey-bay-qld",
-    # "https://www.ubereats.com/au/city/highfields-qld",
-    # "https://www.ubereats.com/au/city/mackay-qld",
-    # "https://www.ubereats.com/au/city/mount-cotton-qld",
-    # "https://www.ubereats.com/au/city/rockhampton-qld",
-    # "https://www.ubereats.com/au/city/sunshine-coast-qld",
-    # "https://www.ubereats.com/au/city/toowoomba-qld",
-    # "https://www.ubereats.com/au/city/townsville-qld",
-    # "https://www.ubereats.com/au/city/tweed-heads-qld",
-    # "https://www.ubereats.com/au/city/withcott-qld",
-    # "https://www.ubereats.com/au/city/adelaide-sa",
-    # "https://www.ubereats.com/au/city/angle-vale-sa",
-    # "https://www.ubereats.com/au/city/gawler-sa",
-    # "https://www.ubereats.com/au/city/hobart-tas",
-    # "https://www.ubereats.com/au/city/launceston-tas",
-    # "https://www.ubereats.com/au/city/ballarat-vic",
-    # "https://www.ubereats.com/au/city/bendigo-vic",
-    # "https://www.ubereats.com/au/city/diggers-rest-vic",
-    # "https://www.ubereats.com/au/city/geelong-vic",
-    # "https://www.ubereats.com/au/city/lara-vic",
-    # "https://www.ubereats.com/au/city/leopold-vic",
-    # "https://www.ubereats.com/au/city/melbourne-vic",
-    # "https://www.ubereats.com/au/city/melton-vic",
-    # "https://www.ubereats.com/au/city/officer-vic",
-    # "https://www.ubereats.com/au/city/pakenham-vic",
-    # "https://www.ubereats.com/au/city/rockbank-vic",
-    # "https://www.ubereats.com/au/city/sunbury-vic",
-    # "https://www.ubereats.com/au/city/wonga-park-vic",
-    # "https://www.ubereats.com/au/city/baldivis-wa",
-    # "https://www.ubereats.com/au/city/bunbury-wa",
-    # "https://www.ubereats.com/au/city/ellenbrook-wa",
-    # "https://www.ubereats.com/au/city/perth-wa",
-    # "https://www.ubereats.com/au/city/yanchep-wa"
+    "https://www.ubereats.com/au/city/wollongong-nsw",
+    "https://www.ubereats.com/au/city/leppington-nsw",
+    "https://www.ubereats.com/au/city/sydney-nsw",
+    "https://www.ubereats.com/au/city/newcastle-nsw",
+    "https://www.ubereats.com/au/city/tweed-heads-nsw",
+    "https://www.ubereats.com/au/city/old-bar-nsw",
+    "https://www.ubereats.com/au/city/wagga-wagga-nsw",
+    "https://www.ubereats.com/au/city/darwin-nt",
+    "https://www.ubereats.com/au/city/brisbane-qld",
+    "https://www.ubereats.com/au/city/cairns-qld",
+    "https://www.ubereats.com/au/city/gold-coast-qld",
+    "https://www.ubereats.com/au/city/hervey-bay-qld",
+    "https://www.ubereats.com/au/city/highfields-qld",
+    "https://www.ubereats.com/au/city/mackay-qld",
+    "https://www.ubereats.com/au/city/mount-cotton-qld",
+    "https://www.ubereats.com/au/city/rockhampton-qld",
+    "https://www.ubereats.com/au/city/sunshine-coast-qld",
+    "https://www.ubereats.com/au/city/toowoomba-qld",
+    "https://www.ubereats.com/au/city/townsville-qld",
+    "https://www.ubereats.com/au/city/tweed-heads-qld",
+    "https://www.ubereats.com/au/city/withcott-qld",
+    "https://www.ubereats.com/au/city/adelaide-sa",
+    "https://www.ubereats.com/au/city/angle-vale-sa",
+    "https://www.ubereats.com/au/city/gawler-sa",
+    "https://www.ubereats.com/au/city/hobart-tas",
+    "https://www.ubereats.com/au/city/launceston-tas",
+    "https://www.ubereats.com/au/city/ballarat-vic",
+    "https://www.ubereats.com/au/city/bendigo-vic",
+    "https://www.ubereats.com/au/city/diggers-rest-vic",
+    "https://www.ubereats.com/au/city/geelong-vic",
+    "https://www.ubereats.com/au/city/lara-vic",
+    "https://www.ubereats.com/au/city/leopold-vic",
+    "https://www.ubereats.com/au/city/melbourne-vic",
+    "https://www.ubereats.com/au/city/melton-vic",
+    "https://www.ubereats.com/au/city/officer-vic",
+    "https://www.ubereats.com/au/city/pakenham-vic",
+    "https://www.ubereats.com/au/city/rockbank-vic",
+    "https://www.ubereats.com/au/city/sunbury-vic",
+    "https://www.ubereats.com/au/city/wonga-park-vic",
+    "https://www.ubereats.com/au/city/baldivis-wa",
+    "https://www.ubereats.com/au/city/bunbury-wa",
+    "https://www.ubereats.com/au/city/ellenbrook-wa",
+    "https://www.ubereats.com/au/city/perth-wa",
+    "https://www.ubereats.com/au/city/yanchep-wa"
 ]
 
 
@@ -244,20 +244,21 @@ def get_store_details(details):
     return store_final
 
 
-# def save_file(save_store, file_name):
-#     with open(f"{file_name.split('/')[-1]}.json", "w") as f:
-#         f.write(json.dumps(save_store))
-#     f.close()
+def save_file_locally(save_store, file_name):
+    with open(f"{file_name.split('/')[-1]}.json", "w") as f:
+        f.write(json.dumps(save_store))
+    f.close()
 # new saving format
 def save_file(save_store, file_name):
-    s3 = boto3.resource('s3', aws_access_key_id="AKIA6IYVRKBBZSEE3CXN",
-                        aws_secret_access_key="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")
+    s3 = boto3.resource('s3', aws_access_key_id="xxxxxxxxxxxxxxxxx",
+                        aws_secret_access_key="xxxxxxxxxxxxxxxxxxxx")
     s3object = s3.Object('tw-external-dumps1',
                          f"opentable/canada/{str(datetime.datetime.utcnow().isocalendar()[0]) + '-' + str(datetime.datetime.utcnow().isocalendar()[1])}/{file_name.split('/')[-1]}.json")
 
     s3object.put(
         Body=(bytes(json.dumps(save_store).encode('UTF-8')))
     )
+    save_file_locally(save_store, file_name)
 
 
 def get_path_url(param_url):
@@ -301,13 +302,13 @@ def process_store(city_url):
         # break
         this_store = get_store_details(store_details)
         my_list.append(this_store)
-        print(this_store)
-        # print("added new store" + store_uuid)
-        if counter == 2:
-            break
-    # save_file(my_list, path)
+        # print(this_store)
+        print("added new store" + store_uuid)
+        # if counter == 2:
+        #     break
+    save_file(my_list, path)
     # print(my_list)
-    # print(f"saved file {path}")
+    print(f"saved file {path}")
     # if counter == 4:
     #     break
 
@@ -316,7 +317,7 @@ if __name__ == '__main__':
     # counter = 0
     for url in cities_urls:
         process_store(url)
-        break
+        # break
         # counter += 1
         # if counter == 2:
         #     break
