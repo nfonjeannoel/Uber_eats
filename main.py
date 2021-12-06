@@ -250,14 +250,14 @@ def save_file_locally(save_store, file_name):
     f.close()
 # new saving format
 def save_file(save_store, file_name):
-    s3 = boto3.resource('s3', aws_access_key_id="xxxxxxxxxxxxxxxxx",
-                        aws_secret_access_key="xxxxxxxxxxxxxxxxxxxx")
-    s3object = s3.Object('tw-external-dumps1',
-                         f"opentable/canada/{str(datetime.datetime.utcnow().isocalendar()[0]) + '-' + str(datetime.datetime.utcnow().isocalendar()[1])}/{file_name.split('/')[-1]}.json")
-
-    s3object.put(
-        Body=(bytes(json.dumps(save_store).encode('UTF-8')))
-    )
+    # s3 = boto3.resource('s3', aws_access_key_id="AKIA6IYVRKBBZSEE3CXN",
+    #                     aws_secret_access_key="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")
+    # s3object = s3.Object('tw-external-dumps1',
+    #                      f"opentable/canada/{str(datetime.datetime.utcnow().isocalendar()[0]) + '-' + str(datetime.datetime.utcnow().isocalendar()[1])}/{file_name.split('/')[-1]}.json")
+    #
+    # s3object.put(
+    #     Body=(bytes(json.dumps(save_store).encode('UTF-8')))
+    # )
     save_file_locally(save_store, file_name)
 
 
@@ -305,7 +305,7 @@ def process_store(city_url):
         # print(this_store)
         print("added new store" + store_uuid)
         # if counter == 2:
-        #     break
+        break
     save_file(my_list, path)
     # print(my_list)
     print(f"saved file {path}")
@@ -317,7 +317,7 @@ if __name__ == '__main__':
     # counter = 0
     for url in cities_urls:
         process_store(url)
-        # break
+        break
         # counter += 1
         # if counter == 2:
         #     break
