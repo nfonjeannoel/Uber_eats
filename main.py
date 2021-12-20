@@ -8,14 +8,14 @@ import json
 cities_urls = [
 
     # urls for all the cities in Australia
-    # "https://www.ubereats.com/au/city/canberra-act",
-    # "https://www.ubereats.com/au/city/byron-bay-nsw",
-    # "https://www.ubereats.com/au/city/galston-nsw",
-    # "https://www.ubereats.com/au/city/queanbeyan-nsw",
-    # "https://www.ubereats.com/au/city/wagga-wagga-nsw",
-    # "https://www.ubereats.com/au/city/catherine-field-nsw",
-    # "https://www.ubereats.com/au/city/central-coast-nsw",
-    # "https://www.ubereats.com/au/city/bathurst-nsw",
+    "https://www.ubereats.com/au/city/canberra-act",
+    "https://www.ubereats.com/au/city/byron-bay-nsw",
+    "https://www.ubereats.com/au/city/galston-nsw",
+    "https://www.ubereats.com/au/city/queanbeyan-nsw",
+    "https://www.ubereats.com/au/city/wagga-wagga-nsw",
+    "https://www.ubereats.com/au/city/catherine-field-nsw",
+    "https://www.ubereats.com/au/city/central-coast-nsw",
+    "https://www.ubereats.com/au/city/bathurst-nsw",
     "https://www.ubereats.com/au/city/wollongong-nsw",
     "https://www.ubereats.com/au/city/leppington-nsw",
     "https://www.ubereats.com/au/city/sydney-nsw",
@@ -117,8 +117,6 @@ def get_store_details(details):
     except:
         data = None
     if data is not None:
-        sections_list = []
-
         try:
             title = store_info["title"] = data['title']
         except:
@@ -138,11 +136,6 @@ def get_store_details(details):
             store_info["slug"] = data['slug']
         except:
             store_info["slug"] = "NA"
-
-        try:
-            store_info["price_range"] = data["nuggets"][0]["body"]
-        except:
-            store_info["price_range"] = "NA"
 
         try:
             store_info["images"] = data['heroImageUrls']
@@ -167,6 +160,11 @@ def get_store_details(details):
             store_info["phoneNumber"] = "NA"
 
         try:
+            store_info["price_range"] = data['priceBucket']
+        except:
+            store_info["price_range"] = "NA"
+
+        try:
 
             try:
                 start_time = str(data["hours"][0]["sectionHours"][0]["startTime"])
@@ -177,10 +175,10 @@ def get_store_details(details):
             except:
                 end_time = ""
 
-        # add a : before the last but one number, returns the time as an integer
+            # add a : before the last but one number, returns the time as an integer
             store_info["opening_hours"] = {
-                "start_time" : start_time,
-                "end_time" : end_time
+                "start_time": start_time,
+                "end_time": end_time
             }
         except:
             store_info["opening_hours"] = "NA"
@@ -224,6 +222,11 @@ def get_store_details(details):
                     except:
                         meal_desc = "NA"
 
+                    try:
+                        meal_uuid = meal['uuid']
+                    except:
+                        meal_uuid = "NA"
+
                     # uuid = meal['uuid']
 
                     menu_info.append({
@@ -231,7 +234,8 @@ def get_store_details(details):
                         "price": str(price)[:-2] + "." + str(price)[-2:],
                         "meal_name": meal_name,
                         "meal_description": meal_desc,
-                        "meal_type": meal_type
+                        "meal_type": meal_type,
+                        "meal_uuid": meal_uuid
                     })
 
     store_final = {
@@ -240,7 +244,6 @@ def get_store_details(details):
             "menu_info": menu_info
         }
     }
-
     return store_final
 
 
@@ -248,16 +251,18 @@ def save_file_locally(save_store, file_name):
     with open(f"{file_name.split('/')[-1]}.json", "w") as f:
         f.write(json.dumps(save_store))
     f.close()
+
+
 # new saving format
 def save_file(save_store, file_name):
-    # s3 = boto3.resource('s3', aws_access_key_id="AKIA6IYVRKBBZSEE3CXN",
-    #                     aws_secret_access_key="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")
-    # s3object = s3.Object('tw-external-dumps1',
-    #                      f"opentable/canada/{str(datetime.datetime.utcnow().isocalendar()[0]) + '-' + str(datetime.datetime.utcnow().isocalendar()[1])}/{file_name.split('/')[-1]}.json")
-    #
-    # s3object.put(
-    #     Body=(bytes(json.dumps(save_store).encode('UTF-8')))
-    # )
+    s3 = boto3.resource('s3', aws_access_key_id="XXXXXXXX",
+                        aws_secret_access_key="xxxxxxx")
+    s3object = s3.Object('tw-external-dumps1',
+                         f"opentable/canada/{str(datetime.datetime.utcnow().isocalendar()[0]) + '-' + str(datetime.datetime.utcnow().isocalendar()[1])}/{file_name.split('/')[-1]}.json")
+
+    s3object.put(
+        Body=(bytes(json.dumps(save_store).encode('UTF-8')))
+    )
     save_file_locally(save_store, file_name)
 
 
@@ -305,7 +310,6 @@ def process_store(city_url):
         # print(this_store)
         print("added new store" + store_uuid)
         # if counter == 2:
-        break
     save_file(my_list, path)
     # print(my_list)
     print(f"saved file {path}")
@@ -317,7 +321,6 @@ if __name__ == '__main__':
     # counter = 0
     for url in cities_urls:
         process_store(url)
-        break
         # counter += 1
         # if counter == 2:
         #     break
